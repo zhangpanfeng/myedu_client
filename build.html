@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Course Build</title>
+<link rel="stylesheet" href="css/base.css" />
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/school.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        initSchoolList();
+
+        function build(data) {
+            $.ajax({
+                url: "controller/BuildController.php",
+                type: "post",
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                    alert("build success!");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("build failure!");
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }
+
+        $("#checkbox").click(function() {
+            var schoolSelect = $("#school_id");
+            var checkbox = $("#checkbox:checked").val();
+            if (checkbox == "on") {
+                schoolSelect.attr("disabled", true);
+            } else {
+                schoolSelect.attr("disabled", false);
+            }
+        });
+
+        $("#button").click(function() {
+            var data = {};
+            var checkbox = $("#checkbox:checked").val();
+
+            if (checkbox == "on") {
+                data["school_id"] = "-1";
+            } else {
+                var school_id = $("#school_id").val();
+                data["school_id"] = school_id;
+            }
+
+            if (data["school_id"] == "0") {
+                alert("Please select one school or check checkbox!");
+                return;
+            }
+            build(data);
+        });
+    });
+</script>
+</head>
+<body>
+
+
+    <table align="center" class="build_table" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td>Build All</td>
+            <td><input type="checkbox" name="build_all" id="checkbox"></td>
+        </tr>
+        <tr>
+            <td>School</td>
+            <td><select name="school_id" class="select" id="school_id">
+                    <option value="0">Select</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="button" value="Build" class="button" id="button"></td>
+        </tr>
+    </table>
+</body>
+</html>
