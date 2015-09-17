@@ -1,0 +1,18 @@
+.build_table{
+    border: 1px solid blue;
+    width: 500px;
+}
+
+.build_table td{
+    border: 1px solid blue;
+}
+
+.select{
+    width:200px;
+    height:25px;
+}
+
+.button{
+    width:100px;
+    height:25px;
+}
