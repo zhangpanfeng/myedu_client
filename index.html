@@ -3,9 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <title>Class Search</title>
+<link rel="stylesheet" href="css/base.css" />
 <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="js/school.js"></script>
-<link rel="stylesheet" href="css/base.css" />
 <script type="text/javascript">
     $(document).ready(
             function() {
@@ -13,8 +13,7 @@
 
                 function showCourseList(school_id) {
                     $.ajax({
-                        url: "controller/CourseController.php/course/"
-                                + school_id,
+                        url: "controller/CourseController.php/course/" + school_id,
                         contentType: 'application/json',
                         type: 'get',
                         dataType: 'json',
@@ -23,15 +22,10 @@
                                 var tbody = $("#tbody");
                                 tbody.empty();
                                 $.each(data, function(index, val) {
-                                    console.log(val);
-                                    tbody.append("<tr><td>" + val.course_number
-                                            + "</td><td>" + val.course_name
-                                            + "</td><td>" + val.professor
-                                            + "</td><td>" + val.course_time
-                                            + "</td><td>"
-                                            + val.dept_name_abbrev
-                                            + "</td><td>" + val.dept_name
-                                            + "</td></tr>");
+                                    //console.log(val);
+                                    tbody.append("<tr><td>" + val.course_number + "</td><td>" + val.course_name
+                                            + "</td><td>" + val.professor + "</td><td>" + val.course_time + "</td><td>"
+                                            + val.dept_name_abbrev + "</td><td>" + val.dept_name + "</td></tr>");
                                 });
                             } else {
                                 console.log("error");
@@ -56,24 +50,20 @@
 </head>
 <body>
 
-    <table align="center" class="search_table" cellspacing="0"
-        cellpadding="0" border="0">
+    <table align="center" class="search_table" cellspacing="0" cellpadding="0" border="0">
         <tr>
             <td>School</td>
-            <td><select name="school_id" class="select"
-                id="school_id">
+            <td><select name="school_id" class="select" id="school_id">
                     <option value="0">Select</option>
             </select></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><input type="button" value="Search" class="button"
-                id="button"></td>
+            <td><input type="button" value="Search" class="button" id="button"></td>
         </tr>
     </table>
 
-    <table align="center" class="result_table" cellspacing="0"
-        cellpadding="0" border="0">
+    <table align="center" class="result_table" cellspacing="0" cellpadding="0" border="0">
         <thead>
             <tr>
                 <th>Course Number</th>

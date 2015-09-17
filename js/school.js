@@ -10,11 +10,10 @@ function initSchoolList() {
                 schoolSelect.empty();
                 schoolSelect.append("<option value='0'>Select</option>");
                 $.each(data, function(index, val) {
-                    schoolSelect.append("<option value='" + val.school_id
-                            + "' >" + val.name + "</option>");
+                    schoolSelect.append("<option value='" + val.school_id + "' >" + val.name + "</option>");
                 });
             } else {
-
+                console.log("error");
             }
         }
 
