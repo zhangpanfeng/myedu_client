@@ -7,6 +7,15 @@
     border: 1px solid blue;
 }
 
+.search_table{
+    border: 1px solid blue;
+    width: 500px;
+}
+
+.search_table td{
+    border: 1px solid blue;
+}
+
 .select{
     width:200px;
     height:25px;

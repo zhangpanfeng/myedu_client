@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Course Build</title>
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<link rel="stylesheet" href="css/base.css" />
+</head>
+<body>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var url = "http://localhost/myedu_rest/index.php";
+         initSchoolList();
+         
+        function initSchoolList(){
+            $.ajax({
+                url: "controller/SchoolController.php",
+                contentType: 'application/json',
+                type: 'get',
+                dataType: 'json',
+                success: function(data) {
+                    if(data != null){
+                        var schoolSelect = $("#school_id");
+                        schoolSelect.empty();
+                        schoolSelect.append("<option value='0'>Select</option>");
+                        $.each(data, function(index, val) {
+                            schoolSelect.append("<option value='"+val.school_id+"' >" +val.name+ "</option>");
+                        });
+                    }else{
+                        
+                    }
+                }
+
+            });
+        }
+
+        function showInfo() {
+            $.ajax({
+                url: url,
+                contentType: 'application/json',
+                type: 'get',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(index, val) {
+                        //console.log(val);
+                        // $('.table').append('<tr><td>'+val.CityID+'</td><td>'+val.CityName+'</td><td>'+val.ZipCode+'</td><td>'+val.letter+'</td><td>'+val.abbr+'</td><td><div class="btn-group btn-group-sm"><button type="button" class="btn btn-warning btn-modify" info="'+val.CityID+'|'+val.CityName+'|'+val.ZipCode+'|'+val.letter+'|'+val.abbr+'" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-edit"></i></button> <button type="button" class="btn btn-danger btn-delete" CityID='+val.CityID+'><i class="glyphicon glyphicon-remove"></i></button></div></td></tr>');
+                    var schoolSelect = $("#school_id");
+                    console.log(schoolSelect);
+                    schoolSelect.empty();
+                    
+                    });
+                }
+            });
+        }
+        
+        function build(data){
+            console.log(data);
+            $.ajax({
+                url:"controller/BuildController.php",
+                type:"post",
+                dataType:"json",
+                data:data,
+                success:function(data){
+                    alert("build success!");
+                },
+                error:function(jqXHR,textStatus,errorThrown){
+                    alert("build failure!");
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }
+        
+        $("#checkbox").click(function(){
+            var schoolSelect = $("#school_id");
+            var checkbox = $("#checkbox:checked").val();
+            if(checkbox == "on"){
+                schoolSelect.attr("disabled",true);
+            }else{
+                schoolSelect.attr("disabled",false);
+            }
+        });
+        
+        $("#button").click(function(){
+            var data = {};
+            var checkbox = $("#checkbox:checked").val();
+            
+            if(checkbox == "on"){
+                data["school_id"] = "-1";
+            }else{
+                var school_id = $("#school_id").val();
+                data["school_id"] = school_id;
+            }
+            
+            if(data["school_id"] == "0"){
+                alert("Please select one school or check checkbox!");
+                return;
+            }
+            build(data);
+        });
+    });
+                </script>
+    <div>
+        <table align="center" class="build_table">
+            <tr>
+                <td>Build All</td>
+                <td><input type="checkbox" name="build_all" id="checkbox"></td>
+            </tr>
+            <tr>
+                <td>School</td>
+                <td><select name="school_id" class="select" id="school_id">
+                        <option value="0">Select</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="button" value="Build" class="button" id="button"></td>
+            </tr>
+        </table>
+
+
+    </div>
+</body>
+</html>
