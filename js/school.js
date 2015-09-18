@@ -19,3 +19,26 @@ function initSchoolList() {
 
     });
 }
+
+function initDeptList(school_id){
+    $.ajax({
+        url: "controller/DeptController.php/dept/" + school_id,
+        contentType: 'application/json',
+        type: 'get',
+        dataType: 'json',
+        success: function(data) {
+            if (data != null) {
+                var dept = $("#dept_id");
+                dept.empty();
+                dept.attr("disabled", false);
+                $.each(data, function(index, val) {
+                    dept.append("<option value='" + val.dept_id + "' >" + val.dept_name_abbrev + "</option>");
+                });
+            } else {
+                console.log("error");
+            }
+        }
+
+    });
+}
+
