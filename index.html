@@ -11,9 +11,9 @@
             function() {
                 initSchoolList();
 
-                function showCourseList(school_id) {
+                function showCourseList(school_id, dept_id) {
                     $.ajax({
-                        url: "controller/CourseController.php/course/" + school_id,
+                        url: "controller/CourseController.php/school/" + school_id+"/dept/" + dept_id,
                         contentType: 'application/json',
                         type: 'get',
                         dataType: 'json',
@@ -34,16 +34,29 @@
 
                     });
                 }
+                
+                $("#school_id").change(function(){
+                    var dept = $("#dept_id");
+                    var school_id = $("#school_id").val();
+                    if(school_id == "0"){
+                        dept.empty();
+                        dept.attr("disabled", true);
+                        return;
+                    }
+                    
+                    initDeptList(school_id);
+                });
 
                 $("#button").click(function() {
                     var data = {};
                     var school_id = $("#school_id").val();
+                    var dept_id = $("#dept_id").val();
 
                     if (school_id == "0") {
                         alert("Please select one school or check checkbox!");
                         return;
                     }
-                    showCourseList(school_id);
+                    showCourseList(school_id, dept_id);
                 });
             })
 </script>
@@ -55,6 +68,11 @@
             <td>School</td>
             <td><select name="school_id" class="select" id="school_id">
                     <option value="0">Select</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>Dept</td>
+            <td><select name="dept_id" class="select" id="dept_id" disabled="disabled">
             </select></td>
         </tr>
         <tr>

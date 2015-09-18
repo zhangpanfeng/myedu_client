@@ -58,13 +58,14 @@ class CourseMapper {
      * @return
      *
      */
-    public static function selectCourseBySchoolId($school_id) {
+    public static function selectCourseByParam($school_id, $dept_id) {
       //  $sql = "select * from school_course where school_id=:id";
-        $sql = "select c.course_number, c.course_name, c.professor, c.course_time, d.dept_name, d.dept_name_abbrev from school_course c left join dept d on c.dept_id = d.dept_id where c.school_id=:id";
+        $sql = "select c.course_number, c.course_name, c.professor, c.course_time, d.dept_name, d.dept_name_abbrev from school_course c left join dept d on c.dept_id = d.dept_id where c.school_id=:school_id and c.dept_id=:dept_id";
         try {
             $conn = DB::getConnect ();
             $stmt = $conn->prepare ( $sql );
-            $stmt->bindParam ( "id", $school_id );
+            $stmt->bindParam ( "school_id", $school_id );
+            $stmt->bindParam ( "dept_id", $dept_id );
             $stmt->execute ();
             $row = $stmt->fetchAll ( PDO::FETCH_ASSOC );
             $conn = null;
