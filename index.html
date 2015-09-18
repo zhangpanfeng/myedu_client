@@ -34,6 +34,30 @@
 
                     });
                 }
+                
+                function createIndex(school_id) {
+                    $.ajax({
+                        url: "controller/SearchController.php/search/" + school_id,
+                        contentType: 'application/json',
+                        type: 'get',
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data != null) {
+                                var tbody = $("#tbody");
+                                tbody.empty();
+                                $.each(data, function(index, val) {
+                                    console.log(val);
+                                   /*  tbody.append("<tr><td>" + val.course_number + "</td><td>" + val.course_name
+                                            + "</td><td>" + val.professor + "</td><td>" + val.course_time + "</td><td>"
+                                            + val.dept_name_abbrev + "</td><td>" + val.dept_name + "</td></tr>"); */
+                                });
+                            } else {
+                                console.log("error");
+                            }
+                        }
+
+                    });
+                }
 
                 $("#button").click(function() {
                     var data = {};
@@ -43,7 +67,8 @@
                         alert("Please select one school or check checkbox!");
                         return;
                     }
-                    showCourseList(school_id);
+                    //showCourseList(school_id);
+                    createIndex(school_id);
                 });
             })
 </script>
